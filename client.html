@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scraping Getter</title>
+</head>
+<body>
+    <section id="main" style="text-align: center;">
+    <h1>Scraping Getter</h1>   
+    <div>
+        <input id="url" type="text" placeholder="Into URL">
+        <button id="btn">Get contents</button>
+    </div>
+    <div></div>
+    <div></div>
+    <div></div>
+    </section>
+    <script>
+        window.onload = () => {
+            document.getElementById("btn").addEventListener("click",() =>{
+                alert(document.getElementById("url").value);
+            })
+        }
+    </script>
+</body>
+</html>
