@@ -1,8 +1,8 @@
 # GETリクエスト
-import requests
+from requests_html import HTMLSession
 import sys # python hoge.py arg1 arg2...   arg1 = sys.argv[1] 
 import os
-from bs4 import BeautifulSoup
+#from bs4 import BeautifulSoup
 
 def main():
     targetUrllist = [1, 2, 3]  #初期化 new,sales1,sales2
@@ -17,6 +17,20 @@ def main():
     # if not os.path.isdir(path):
     #     print('aaa')
     #     os.makedirs(path)
+
+    url = "https://www.uniqlo.com/jp/ja/spl/collaboration/plusj/men/"
+
+    # セッション開始
+    session = HTMLSession()
+    r = session.get(url)
+
+    # ブラウザエンジンでHTMLを生成させる
+    r.html.render()
+
+    # スクレイピング
+    product_name = r.html.find(".ocI5u4BRvjaH-uauZvJ8R > h3")
+    for name in product_name:
+        print(name.text)
 
     """
 
@@ -37,17 +51,17 @@ def main():
                 f.write(r.content)
     """
 
-    html = requests.get("https://aiacademy.jp/assets/scraping/sample1.html").text
+    # html = requests.get("https://aiacademy.jp/assets/scraping/sample1.html").text
     
-    # HTMLを解析
-    soup = BeautifulSoup(html, 'html.parser')
+    # # HTMLを解析
+    # soup = BeautifulSoup(html, 'html.parser')
     
-    # 解析したHTMLから任意の部分のみを抽出（ここではtitleとbody）
-    title = soup.find("title")
-    body = soup.find("body")
+    # # 解析したHTMLから任意の部分のみを抽出（ここではtitleとbody）
+    # title = soup.find("title")
+    # body = soup.find("body")
     
-    print("title: " + title.text)
-    print("body: " + body.text)
+    # print("title: " + title.text)
+    # print("body: " + body.text)
 
     # links = soup.find_all("a")
     
