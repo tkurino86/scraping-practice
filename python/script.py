@@ -4,6 +4,8 @@ import sys # python hoge.py arg1 arg2...   arg1 = sys.argv[1]
 import os
 import smtplib #mailer
 from email.mime.text import MIMEText
+import settings
+
 #from bs4 import BeautifulSoup
 
 def main():
@@ -81,7 +83,8 @@ def mail(content):
     smtp_host = 'smtp.gmail.com'
     smtp_port = 465
     username = 'python.sender.tester@gmail.com'
-    password = os.getenv('GPASS')
+    password = settings.GPAS
+    print(password)
     from_address = 'python.sender.tester@gmail.com'
     to_address = 'python.sender.tester@gmail.com'
     subject = 'test subject'
@@ -93,7 +96,6 @@ def mail(content):
     msg['From'] = from_address
     msg['To'] = to_address
   
-
     smtp = smtplib.SMTP_SSL(smtp_host, smtp_port)
     smtp.login(username, password)
     smtp.sendmail(from_address, to_address, msg.as_string()) 
