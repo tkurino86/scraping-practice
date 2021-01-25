@@ -2,6 +2,8 @@
 from requests_html import HTMLSession
 import sys # python hoge.py arg1 arg2...   arg1 = sys.argv[1] 
 import os
+import smtplib #mailer
+from email.mime.text import MIMEText
 #from bs4 import BeautifulSoup
 
 def main():
@@ -11,14 +13,14 @@ def main():
     #     return
     # name = sys.argv[1]
     # path = './pic/'+name
-    path = './sorces/hoge'
+    path = './sorces/'
     print("aaa")
 
-    # if not os.path.isdir(path):
-    #     print('aaa')
-    #     os.makedirs(path)
+    if not os.path.isdir(path):
+        print('aaa')
+        os.makedirs(path)
 
-    url = "https://www.uniqlo.com/jp/ja/spl/collaboration/plusj/men/"
+    url = "https://www.uniqlo.com/jp/ja/feature/limited-offers/men"
 
     # セッション開始
     session = HTMLSession()
@@ -28,10 +30,16 @@ def main():
     r.html.render()
 
     # スクレイピング
+    mailCtx = ""
     product_name = r.html.find(".ocI5u4BRvjaH-uauZvJ8R > h3")
     for name in product_name:
         print(name.text)
-
+        mailCtx += name.text + "\n"
+        
+    print("matometa" + mailCtx)
+    mail(mailCtx)
+    
+    
     """
 
     for tUrl in len(targetUrllist): #See https://qiita.com/motoki1990/items/d06fc7559546a8471392
@@ -69,6 +77,29 @@ def main():
     #     href = a.attrs['href']
     #     text = a.text
     #     print(text, href)
-        
+def mail(content):
+    smtp_host = 'smtp.gmail.com'
+    smtp_port = 465
+    username = 'python.sender.tester@gmail.com'
+    password = 'iuhaotiqrwyodfel'
+    from_address = 'python.sender.tester@gmail.com'
+    to_address = 'python.sender.tester@gmail.com'
+    subject = 'test subject'
+    body = content
+    charset = 'utf-8'
+    
+    msg = MIMEText(body.encode(charset), 'plain', charset)
+    msg['Subject'] = subject
+    msg['From'] = from_address
+    msg['To'] = to_address
+  
+    
+    # message = ("From: %s\r\nTo: %s\r\nSubject: %s\r\n\r\n%s" % (from_address, to_address, subject, body))
+
+    smtp = smtplib.SMTP_SSL(smtp_host, smtp_port)
+    smtp.login(username, password)
+    smtp.sendmail(from_address, to_address, msg.as_string()) 
+    smtp.close()
+            
 if __name__ == '__main__':
     main() 
