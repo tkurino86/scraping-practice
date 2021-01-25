@@ -81,7 +81,7 @@ def mail(content):
     smtp_host = 'smtp.gmail.com'
     smtp_port = 465
     username = 'python.sender.tester@gmail.com'
-    password = 'iuhaotiqrwyodfel'
+    password = os.getenv('GPASS')
     from_address = 'python.sender.tester@gmail.com'
     to_address = 'python.sender.tester@gmail.com'
     subject = 'test subject'
@@ -93,8 +93,6 @@ def mail(content):
     msg['From'] = from_address
     msg['To'] = to_address
   
-    
-    # message = ("From: %s\r\nTo: %s\r\nSubject: %s\r\n\r\n%s" % (from_address, to_address, subject, body))
 
     smtp = smtplib.SMTP_SSL(smtp_host, smtp_port)
     smtp.login(username, password)
